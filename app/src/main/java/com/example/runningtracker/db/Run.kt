@@ -15,5 +15,4 @@ data class Run (
 ){
     @PrimaryKey(autoGenerate = true)
     var id : Int? = null
-
 }
