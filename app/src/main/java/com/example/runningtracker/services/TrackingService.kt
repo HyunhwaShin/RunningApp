@@ -24,6 +24,7 @@ import com.example.runningtracker.other.Constants.FASTEST_LOCATION_INTERVAL
 import com.example.runningtracker.other.Constants.LOCATION_UPDATE_INTERVAL
 import com.example.runningtracker.other.Constants.NOTIFICATION_CHANNEL_NAME
 import com.example.runningtracker.other.Constants.NOTIFICATION_ID
+import com.example.runningtracker.other.Constants.TIMER_UPDATE_INTERVAL
 import com.example.runningtracker.other.TrackingUtility
 import com.example.runningtracker.ui.MainActivity
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -31,6 +32,10 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import com.example.runningtracker.other.Constants.NOTIFICATION_CHANNEL_ID as NOTIFICATION_CHANNEL_ID
@@ -46,7 +51,10 @@ class TrackingService :LifecycleService() {
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private val timeRunInSeconds = MutableLiveData<Long>()
+
     companion object{
+        val timeRunInMillis =  MutableLiveData<Long>()
         val isTracking = MutableLiveData<Boolean>()
         //지구의 위도,경도 추적을 위한 liveData
         val pathPoints = MutableLiveData<Polylines>()
@@ -75,7 +83,8 @@ class TrackingService :LifecycleService() {
                         isFirstRun = false
                     }else{
                         Timber.d("Resuming service..")
-                        startForegroundService()
+                        //startForegroundService() 대신
+                        startTimer()
                     }
                 }
                 ACTION_PAUSE_SERVICE -> {
@@ -90,10 +99,40 @@ class TrackingService :LifecycleService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun pauseService(){
-        isTracking.postValue(false)
+    private var isTimerEnabled = false
+    //lapTime 에 시간을 추가하지만 타이머를 중지시키고 다시 시작하면 다시 0에서 시작함
+    //그래서 일시정지 기능을 만들어줘야되는거!
+    private var lapTime =0L
+    private var timeRun =0L
+    private var timeStarted =0L
+    private var lastSecondTimestamp = 0L
 
+    private fun startTimer() {
+        addEmptyPolyline()
+        isTracking.postValue(true)
+        timeStarted = System.currentTimeMillis()
+        isTimerEnabled = true
+        CoroutineScope(Dispatchers.Main).launch {
+            while (isTracking.value!!) {
+                // 지금이랑 timeStarted 시간의 차이
+                lapTime = System.currentTimeMillis() - timeStarted
+                // new lapTime 값을 post
+                timeRunInMillis.postValue(timeRun + lapTime)
+                if (timeRunInMillis.value!! >= lastSecondTimestamp + 1000L) {
+                    timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
+                    lastSecondTimestamp += 1000L
+                }
+                delay(TIMER_UPDATE_INTERVAL)
+            }
+            timeRun += lapTime
+        }
     }
+
+    private fun pauseService() {
+        isTracking.postValue(false)
+        isTimerEnabled = false
+    }
+
     @SuppressLint("MissingPermission")
     private fun updateLocationTracking(isTracking: Boolean) {
         if (isTracking) {
@@ -146,6 +185,9 @@ class TrackingService :LifecycleService() {
 
 
     private fun startForegroundService() {
+
+        startTimer()
+        isTracking.postValue(true)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE)
                 as NotificationManager
