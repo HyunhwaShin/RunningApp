@@ -31,6 +31,9 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
 
+const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
+
+
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
@@ -64,6 +67,16 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
            // sendCommandToService(ACTION_START_OR_RESUME_SERVICE) 아래걸로 바뀜
             toggleRun()
         }
+        if(savedInstanceState != null){
+            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(
+                    CANCEL_TRACKING_DIALOG_TAG) as CancelTrackingDialog?
+            cancelTrackingDialog?.setYesListener {
+                stopRun()
+            }
+        }
+
+
+
         btnFinishRun.setOnClickListener {
             zoomToSeeWholeTrack()
             endRunAndSaveToDb()
@@ -124,30 +137,24 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun showCancelTrackingDialog() {
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
-            .setTitle("Cancel the Run?")
-            .setMessage("Are you sure to cancel the current run and delete all its data?")
-            .setIcon(R.drawable.ic_delete)
-            .setPositiveButton("Yes") { _, _ ->
+        CancelTrackingDialog().apply {
+            setYesListener {
                 stopRun()
             }
-            .setNegativeButton("No") { dialogInterface, _ ->
-                dialogInterface.cancel()
-            }
-            .create()
-        dialog.show()
+        }.show(parentFragmentManager,CANCEL_TRACKING_DIALOG_TAG)
     }
     private fun stopRun() {
+        tvTimer.text ="00:00:00:00"
         sendCommandToService(ACTION_STOP_SERVICE)
         findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if(!isTracking) {
+        if(!isTracking && curTimeInMillis > 0L) {
             btnToggleRun.text = "Start"
             btnFinishRun.visibility = View.VISIBLE
-        } else {
+        } else if(isTracking){
             btnToggleRun.text = "Stop"
             menu?.getItem(0)?.isVisible = true
             btnFinishRun.visibility = View.GONE
@@ -192,11 +199,14 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             for(polyline in pathPoints) {
                 distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
             }
+            //평균속도 =(distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) 인데 반올림값을 얻으려고
             val avgSpeed = round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val dateTimestamp = Calendar.getInstance().timeInMillis
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
             val run = Run(bmp, dateTimestamp, avgSpeed, distanceInMeters, curTimeInMillis, caloriesBurned)
+
             viewModel.insertRun(run)
+
             Snackbar.make(
                 requireActivity().findViewById(R.id.rootView),
                 "Run saved successfully",
@@ -217,7 +227,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun addLatestPolyline(){
-        if(pathPoints.isEmpty() && pathPoints.last().size > 1){
+        if(pathPoints.isNotEmpty() && pathPoints.last().size > 1){
             val preLastLatLng = pathPoints.last()[pathPoints.last().size -2]
             val lastLatLng = pathPoints.last().last()
 

@@ -15,7 +15,7 @@ import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 
-
+//tracking service 에 대한 모든 종속성을 보유
 @Module
 @InstallIn(ServiceComponent::class)
 object ServiceModule {

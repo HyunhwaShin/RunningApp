@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_run.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
+class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>(){
 
     inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

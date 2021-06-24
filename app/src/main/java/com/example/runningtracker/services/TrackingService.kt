@@ -14,6 +14,7 @@ import android.os.Looper
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.runningtracker.R
@@ -64,7 +65,7 @@ class TrackingService :LifecycleService() {
 
     companion object{
         val timeRunInMillis =  MutableLiveData<Long>()
-        val isTracking = MutableLiveData<Boolean>()
+        var isTracking = MutableLiveData<Boolean>()
         //지구의 위도,경도 추적을 위한 liveData
         val pathPoints = MutableLiveData<Polylines>()
     }
@@ -73,9 +74,11 @@ class TrackingService :LifecycleService() {
         super.onCreate()
         postInitialValues()
         fusedLocationProviderClient = FusedLocationProviderClient(this)
+        curNotificationBuilder = baseNotificationBuilder
 
         isTracking.observe(this, Observer {
             updateLocationTracking(it) //requestLocationUpdates 로 이동
+            updateNotificationTrackingState(it)
         })
     }
     private fun postInitialValues() {
@@ -87,7 +90,6 @@ class TrackingService :LifecycleService() {
     private fun killService() {
         serviceKilled = true
         isFirstRun = true
-        pauseService()
         postInitialValues()
         stopForeground(true)
         stopSelf()
