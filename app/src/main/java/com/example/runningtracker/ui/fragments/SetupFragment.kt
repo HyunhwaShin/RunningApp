@@ -45,7 +45,7 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
             if(success) {
                 findNavController().navigate(R.id.action_setupFragment_to_runFragment)
             } else {
-                Snackbar.make(requireView(), "Please enter all the fields", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(requireView(), "이름과 몸무게를 모두 입력해주세요", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -61,7 +61,7 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
             .putFloat(KEY_WEIGHT, weight.toFloat())
             .putBoolean(KEY_FIRST_TIME_TOGGLE, false)
             .apply()
-        val toolbarText = "Let's go, $name!"
+        val toolbarText = "최고의 러너 $name !"
         requireActivity().tvToolbarTitle.text = toolbarText
         return true
     }

@@ -50,7 +50,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             setDrawGridLines(false)
         }
         barChart.apply {
-            description.text = "Avg Speed Over Time"
+            description.text = "시간 경과에 따른 평균 속도"
             legend.isEnabled = false
         }
     }
@@ -86,7 +86,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         viewModel.runsSortedByDate.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val allAvgSpeeds = it.indices.map { i -> BarEntry(i.toFloat(), it[i].avgSpeedInKMH) }
-                val bardataSet = BarDataSet(allAvgSpeeds, "Avg Speed Over Time").apply {
+                val bardataSet = BarDataSet(allAvgSpeeds, "시간 경과에 따른 평균 속도").apply {
                     valueTextColor = Color.WHITE
                     color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
                 }

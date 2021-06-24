@@ -25,9 +25,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         btnApplyChanges.setOnClickListener {
             val success = applyChangesToSharedPref()
             if(success) {
-                Snackbar.make(view, "Saved changes", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view, "성공적으로 변경되었습니다", Snackbar.LENGTH_LONG).show()
             } else {
-                Snackbar.make(view, "Please fill out all the fields", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view, "이름과 몸무게를 모두 입력해주세요", Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -49,7 +49,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             .putString(KEY_NAME, nameText)
             .putFloat(KEY_WEIGHT, weightText.toFloat())
             .apply()
-        val toolbarText = "Let's go $nameText"
+        val toolbarText = "최고의 러너 $nameText !"
         requireActivity().tvToolbarTitle.text = toolbarText
         return true
     }

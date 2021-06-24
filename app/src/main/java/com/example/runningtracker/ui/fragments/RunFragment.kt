@@ -78,7 +78,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
                 this,
-                "You need to accept location permissions to use this app.",
+                "이 앱을 사용하려면 위치 사용 권한을 수락해야 합니다.",
                 REQUEST_CODE_LOCATION_PERMISSION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -86,7 +86,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         } else {
             EasyPermissions.requestPermissions(
                 this,
-                "You need to accept location permissions to use this app.",
+                "이 앱을 사용하려면 위치 사용 권한을 수락해야 합니다.",
                 REQUEST_CODE_LOCATION_PERMISSION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,

@@ -15,7 +15,7 @@
             android:id="@+id/tvDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DATE"
+            android:text="날짜"
             android:textSize="20sp"
             android:gravity="center"/>
 
@@ -23,7 +23,7 @@
             android:id="@+id/tvDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DURATION"
+            android:text="기간"
             android:textSize="20sp"
             android:gravity="center"/>
 
@@ -31,7 +31,7 @@
             android:id="@+id/tvAvgSpeed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="AVG SPEED"
+            android:text="평균 속도"
             android:textSize="20sp"
             android:gravity="center"/>
 
@@ -39,7 +39,7 @@
             android:id="@+id/tvDistance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DISTANCE"
+            android:text="거리"
             android:textSize="20sp"
             android:gravity="center"/>
 
@@ -47,7 +47,7 @@
             android:id="@+id/tvCaloriesBurned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CALORIES BURNED"
+            android:text="칼로리 소모량"
             android:textSize="20sp"
             android:gravity="center"/>
 

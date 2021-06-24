@@ -6,6 +6,6 @@
         android:icon="@drawable/ic_close_white"
         android:visible="false"
         app:showAsAction="always"
-        android:title="Cancel Run" />
+        android:title="그만 달리기" />
 
 </menu>

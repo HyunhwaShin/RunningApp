@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">RunningTracker</string>
     <string-array name="filter_options">
-        <item>Date</item>
-        <item>Running Time</item>
-        <item>Distance</item>
-        <item>Average Speed</item>
-        <item>Calories Burned</item>
+        <item>날짜</item>
+        <item>달리기 시간</item>
+        <item>거리</item>
+        <item>평균 속도</item>
+        <item>칼로리 소모량</item>
     </string-array>
     <string name="google_maps_key">AIzaSyC6xev4I6vMVwak2KTpQnb4wRRqhjvFDkE</string>
 </resources>

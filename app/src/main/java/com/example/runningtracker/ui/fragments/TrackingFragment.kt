@@ -152,10 +152,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
         if(!isTracking && curTimeInMillis > 0L) {
-            btnToggleRun.text = "Start"
+            btnToggleRun.text = "시작"
             btnFinishRun.visibility = View.VISIBLE
         } else if(isTracking){
-            btnToggleRun.text = "Stop"
+            btnToggleRun.text = "멈춤"
             menu?.getItem(0)?.isVisible = true
             btnFinishRun.visibility = View.GONE
         }
@@ -209,7 +209,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
             Snackbar.make(
                 requireActivity().findViewById(R.id.rootView),
-                "Run saved successfully",
+                "성공적으로 저장되었습니다",
                 Snackbar.LENGTH_LONG
             ).show()
             stopRun()

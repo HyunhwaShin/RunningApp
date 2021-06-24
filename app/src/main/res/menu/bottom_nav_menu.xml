@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/runFragment"
-        android:title="Your Runs"
+        android:title="달리기"
         android:icon="@drawable/ic_run"/>
 
     <item
         android:id="@+id/statisticsFragment"
-        android:title="Statistics"
+        android:title="통계"
         android:icon="@drawable/ic_graph"/>
 
     <item
         android:id="@+id/settingsFragment"
-        android:title="Settings"
+        android:title="설정"
         android:icon="@drawable/ic_settings"/>
 </menu>
