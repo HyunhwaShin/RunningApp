@@ -49,7 +49,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             .putString(KEY_NAME, nameText)
             .putFloat(KEY_WEIGHT, weightText.toFloat())
             .apply()
-        val toolbarText = "최고의 러너 $nameText !"
+        val toolbarText = "$nameText 님의 정보가 새로 입력되었습니다!"
         requireActivity().tvToolbarTitle.text = toolbarText
         return true
     }

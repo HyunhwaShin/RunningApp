@@ -10,9 +10,9 @@
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_runrun"
+        android:icon="@drawable/icon_run"
         android:label="RunningApp"
-        android:roundIcon="@drawable/ic_runrun"
+        android:roundIcon="@drawable/icon_run"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.MainActivity" android:launchMode="singleTask">

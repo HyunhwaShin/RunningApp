@@ -61,7 +61,7 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
             .putFloat(KEY_WEIGHT, weight.toFloat())
             .putBoolean(KEY_FIRST_TIME_TOGGLE, false)
             .apply()
-        val toolbarText = "최고의 러너 $name !"
+        val toolbarText = "러너 $name 님 화이팅!!"
         requireActivity().tvToolbarTitle.text = toolbarText
         return true
     }

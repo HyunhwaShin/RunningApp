@@ -23,4 +23,11 @@
     <color name="md_blue_A700">#2962FF</color>
     <color name="colorAccent">#FFE600</color>
     <color name="errorColor">#D50000</color>
+
+    <color name="yellow">#f2edb1</color>
+    <color name="green_gray">#2F4F4F</color>
+    <color name="light_green">#487373</color>
+
+
+    <color name="navy">#11264f</color>
 </resources>
